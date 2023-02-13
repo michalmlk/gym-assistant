@@ -1,11 +1,12 @@
 import React from 'react'
 import MainTemplate from "../components/templates/MainTemplate";
+import ActivityForm from "../components/organisms/ActivityForm/ActivityForm";
 
 
 const Home = () => {
     return (
         <MainTemplate>
-            <h1>Content</h1>
+            <ActivityForm />
         </MainTemplate>
     )
 }
