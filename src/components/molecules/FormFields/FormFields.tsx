@@ -26,11 +26,12 @@ export interface FormFieldProps {
     label: string,
     name: string,
     type?: HTMLInputTypeAttribute,
-    onChange: ChangeEvent<HTMLInputElement>
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void,
 }
 
-interface FormSelectProps extends FormFieldProps {
+interface FormSelectProps extends Omit <FormFieldProps, 'onChange'> {
     options: Array<string>
+    onChange: (event: ChangeEvent<HTMLSelectElement>) => void,
 }
 
 export const FormField: React.FC<FormFieldProps> = ({id, label, name, type, onChange}) => {
@@ -42,11 +43,11 @@ export const FormField: React.FC<FormFieldProps> = ({id, label, name, type, onCh
     )
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({id, label, name, options}) => {
+export const FormSelect: React.FC<FormSelectProps> = ({id, label, name, options, onChange}) => {
     return (
         <StyledFormField>
             <label htmlFor={id}>{label}</label>
-            <select name={name} id={id} defaultValue={'Select'}>
+            <select name={name} id={id} defaultValue={'Select'} onChange={onChange}>
                 <option>Select</option>
                 {
                     options.map(option => <option

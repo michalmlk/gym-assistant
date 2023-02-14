@@ -6,7 +6,9 @@ import ActivityForm from "../components/organisms/ActivityForm/ActivityForm";
 const Home = () => {
     return (
         <MainTemplate>
-            <ActivityForm />
+            <ActivityForm onSubmit={(e) => {
+                e.preventDefault();
+            }} />
         </MainTemplate>
     )
 }
