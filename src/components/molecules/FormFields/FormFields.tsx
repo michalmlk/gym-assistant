@@ -42,21 +42,3 @@ export const FormField: React.FC<FormFieldProps> = ({id, label, name, type, onCh
         </StyledFormField>
     )
 }
-
-export const FormSelect: React.FC<FormSelectProps> = ({id, label, name, options, onChange}) => {
-    return (
-        <StyledFormField>
-            <label htmlFor={id}>{label}</label>
-            <select name={name} id={id} defaultValue={'Select'} onChange={onChange}>
-                <option>Select</option>
-                {
-                    options.map(option => <option
-                        key={option}
-                        value={option}>
-                        {option}
-                    </option>)
-                }
-            </select>
-        </StyledFormField>
-    )
-}

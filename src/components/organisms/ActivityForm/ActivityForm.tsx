@@ -1,9 +1,8 @@
-import React, {FormEventHandler, useState} from "react";
-import {FormField, FormSelect} from "../../molecules/FormFields/FormFields";
+import React, {FormEventHandler} from "react";
+import {FormField} from "../../molecules/FormFields/FormFields";
 import {Wrapper, StyledForm} from "./ActivityForm.styles";
+import {useForm, FormState} from "../../../hooks/useForm";
 
-const activityOptions = ['Running', 'Swimming', 'Gym', 'Cardio'];
-const intensityOptions = ['25%', '50%', '75%', '100%'];
 
 interface ActivityFormProps {
     onSubmit: FormEventHandler<HTMLFormElement>
@@ -11,28 +10,19 @@ interface ActivityFormProps {
 
 const ActivityForm: React.FC<ActivityFormProps> = ({onSubmit}) => {
 
-    const [formValues, setFormValues] = useState({
+    const initialFormState: FormState = {
         duration: '',
         intensity: '',
-        type: '',
-    });
+        activityType: '',
+    }
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormValues({
-            ...formValues,
-            [event.target.name]: event.target.value,
-        })
-    };
-
-    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFormValues({
-            ...formValues,
-            [event.target.name]: event.target.value,
-        })
-    };
+    const {formState, handleInputChange} = useForm(initialFormState);
 
     return <Wrapper>
-        <StyledForm onSubmit={onSubmit}>
+        <StyledForm onSubmit={(e) => {
+            e.preventDefault()
+            console.log(formState)
+        }}>
             <h1>Your training:</h1>
             <FormField
                 id='duration'
@@ -40,22 +30,21 @@ const ActivityForm: React.FC<ActivityFormProps> = ({onSubmit}) => {
                 type='number' name='duration'
                 onChange={handleInputChange}
             />
-            <FormSelect
+            <FormField
                 id='intensity'
-                label='Intensity'
-                options={intensityOptions}
-                name='intensity'
-                onChange={handleSelectChange}
+                label='Intensity (%)'
+                type='number' name='intensity'
+                onChange={handleInputChange}
             />
-            <FormSelect
+            <FormField
                 id='type'
                 label='Type'
-                options={activityOptions}
-                name='type'
-                onChange={handleSelectChange}
+                type='string' name='activityType'
+                onChange={handleInputChange}
             />
             <button type='submit'>Save</button>
         </StyledForm>
     </Wrapper>
 }
+
 export default ActivityForm;
