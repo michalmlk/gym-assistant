@@ -1,49 +1,34 @@
-import React, {useReducer} from 'react'
+import React, { useReducer } from 'react';
 
 enum actionTypes {
     inputChange= 'INPUT_CHANGE',
     clearForm = 'CLEAR_FORM',
 }
 
-interface FormAction {
-    type: actionTypes,
-    field: string,
-    payload: string
-
-}
-const initialFormState: FormState = {
-    duration: '',
-    intensity: '',
-    activityType: '',
+export type FormState = {
+    duration: string,
+    intensity: string,
+    activityType: string
 }
 
-const reducer = (state: FormState, action: FormAction) => {
-    const {type, payload} = action;
-    switch (type) {
+const reducer = (state: FormState, action: any) => {
+    switch (action.type) {
         case actionTypes.inputChange:
             return {
                 ...state,
-                [action.field]: payload
+                [action.field]: action.payload
             };
         case actionTypes.clearForm:
             return {
-                duration: '',
-                intensity: '',
-                activityType: ''
+                ...action.initialValues
             }
         default:
             return state;
     }
 }
 
-export type FormState = {
-    duration: string,
-    intensity: string,
-    activityType: string,
-}
-
 export const useForm = (initialValues: FormState) => {
-    const [formState, dispatchFn] = useReducer(reducer, initialValues)
+    const [formValues, dispatchFn] = useReducer(reducer, initialValues)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatchFn({
@@ -53,8 +38,16 @@ export const useForm = (initialValues: FormState) => {
         })
     };
 
+    const handleClearForm = () => {
+        dispatchFn({
+            type: actionTypes.clearForm,
+            initialValues
+        })
+    }
+
     return {
-        formState,
+        formValues,
         handleInputChange,
+        handleClearForm
     }
 }

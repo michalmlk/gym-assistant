@@ -22,6 +22,7 @@ const StyledFormField = styled.div`
 `;
 
 export interface FormFieldProps {
+    value: string,
     id: string,
     label: string,
     name: string,
@@ -29,16 +30,16 @@ export interface FormFieldProps {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void,
 }
 
-interface FormSelectProps extends Omit <FormFieldProps, 'onChange'> {
-    options: Array<string>
-    onChange: (event: ChangeEvent<HTMLSelectElement>) => void,
-}
+// interface FormSelectProps extends Omit <FormFieldProps, 'onChange'> {
+//     options: Array<string>
+//     onChange: (event: ChangeEvent<HTMLSelectElement>) => void,
+// }
 
-export const FormField: React.FC<FormFieldProps> = ({id, label, name, type, onChange}) => {
+export const FormField: React.FC<FormFieldProps> = ({value, id, label, name, type, onChange}) => {
     return (
         <StyledFormField>
             <label htmlFor={id}>{label}</label>
-            <input name={name} id={id} type={type} onChange={onChange}/>
+            <input name={name} id={id} type={type} onChange={onChange} value={value}/>
         </StyledFormField>
     )
 }

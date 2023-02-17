@@ -8,7 +8,7 @@ interface ActivityFormProps {
     onSubmit: FormEventHandler<HTMLFormElement>
 }
 
-const ActivityForm: React.FC<ActivityFormProps> = ({onSubmit}) => {
+const ActivityForm: React.FC<ActivityFormProps> = () => {
 
     const initialFormState: FormState = {
         duration: '',
@@ -16,31 +16,38 @@ const ActivityForm: React.FC<ActivityFormProps> = ({onSubmit}) => {
         activityType: '',
     }
 
-    const {formState, handleInputChange} = useForm(initialFormState);
+    const {formValues, handleInputChange, handleClearForm} = useForm(initialFormState);
 
     return <Wrapper>
         <StyledForm onSubmit={(e) => {
             e.preventDefault()
-            console.log(formState)
+            handleClearForm()
+            console.log(formValues)
         }}>
             <h1>Your training:</h1>
             <FormField
                 id='duration'
                 label='Duration (min)'
-                type='number' name='duration'
+                type='number'
+                name='duration'
                 onChange={handleInputChange}
+                value={formValues.duration}
             />
             <FormField
                 id='intensity'
                 label='Intensity (%)'
-                type='number' name='intensity'
+                type='number'
+                name='intensity'
                 onChange={handleInputChange}
+                value={formValues.intensity}
             />
             <FormField
                 id='type'
                 label='Type'
-                type='string' name='activityType'
+                type='string'
+                name='activityType'
                 onChange={handleInputChange}
+                value={formValues.activityType}
             />
             <button type='submit'>Save</button>
         </StyledForm>
