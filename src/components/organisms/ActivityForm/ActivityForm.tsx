@@ -1,7 +1,8 @@
-import React, {FormEventHandler} from "react";
+import React, {FormEventHandler, useContext} from "react";
 import {FormField} from "../../molecules/FormFields/FormFields";
 import {Wrapper, StyledForm} from "./ActivityForm.styles";
 import {useForm, FormState} from "../../../hooks/useForm";
+import {DataContext} from "../../../context/DataProvider";
 
 
 interface ActivityFormProps {
@@ -17,12 +18,14 @@ const ActivityForm: React.FC<ActivityFormProps> = () => {
     }
 
     const {formValues, handleInputChange, handleClearForm} = useForm(initialFormState);
+    // @ts-ignore
+    const { addTraining, trainings } = useContext(DataContext);
 
     return <Wrapper>
         <StyledForm onSubmit={(e) => {
-            e.preventDefault()
-            handleClearForm()
-            console.log(formValues)
+            e.preventDefault();
+            addTraining(formValues);
+            handleClearForm();
         }}>
             <h1>Your training:</h1>
             <FormField
