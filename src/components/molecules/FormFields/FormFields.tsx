@@ -1,5 +1,6 @@
 import React, {ChangeEvent, HTMLInputTypeAttribute} from "react";
 import styled from "styled-components";
+import { Path, UseFormRegister } from 'react-hook-form';
 
 const StyledFormField = styled.div`
   display: flex;
@@ -21,25 +22,41 @@ const StyledFormField = styled.div`
   }
 `;
 
+export interface IFormValues {
+    duration: string;
+    intensity: string;
+    activityType: string;
+}
+
 export interface FormFieldProps {
     value: string,
     id: string,
-    label: string,
+    label: Path<IFormValues>,
     name: string,
     type?: HTMLInputTypeAttribute,
     onChange: (event: ChangeEvent<HTMLInputElement>) => void,
+    register: UseFormRegister<IFormValues>
+    required: boolean
 }
 
-// interface FormSelectProps extends Omit <FormFieldProps, 'onChange'> {
-//     options: Array<string>
-//     onChange: (event: ChangeEvent<HTMLSelectElement>) => void,
-// }
-
-export const FormField: React.FC<FormFieldProps> = ({value, id, label, name, type, onChange}) => {
+export const FormField: React.FC<FormFieldProps> = (
+    {value,
+        id,
+        label,
+        name, type,
+        onChange,
+        register,
+        required
+    }) => {
     return (
         <StyledFormField>
             <label htmlFor={id}>{label}</label>
-            <input name={name} id={id} type={type} onChange={onChange} value={value}/>
+            <input {...register(label, {required})}
+                   name={name}
+                   id={id}
+                   type={type}
+                   onChange={onChange}
+                   value={value}/>
         </StyledFormField>
     )
 }
