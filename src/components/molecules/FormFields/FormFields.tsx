@@ -1,62 +1,42 @@
-import React, {ChangeEvent, HTMLInputTypeAttribute} from "react";
-import styled from "styled-components";
-import { Path, UseFormRegister } from 'react-hook-form';
+import React, {HTMLInputTypeAttribute} from "react";
+import {Path, UseFormRegister} from 'react-hook-form';
+import {StyledFormField} from "./FormField.styles";
 
-const StyledFormField = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin: 20px 0;
-
-  label {
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  input, select {
-    border-radius: 50px;
-    border: 1px solid #ddd;
-    padding: 0 15px;
-    font-size: 18px;
-    height: 40px;
-  }
-`;
-
-export interface IFormValues {
+export interface IFormInputs {
     duration: string;
     intensity: string;
     activityType: string;
 }
 
 export interface FormFieldProps {
-    value: string,
     id: string,
-    label: Path<IFormValues>,
+    label: Path<IFormInputs>,
     name: string,
     type?: HTMLInputTypeAttribute,
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void,
-    register: UseFormRegister<IFormValues>
-    required: boolean
+    register: UseFormRegister<IFormInputs>,
+    required: boolean,
+    pattern?: RegExp,
+    maxLength?: number,
+    min?: number,
+    max?: number,
 }
 
-export const FormField: React.FC<FormFieldProps> = (
-    {value,
+export const FormField: React.FC<FormFieldProps> = ({
         id,
         label,
-        name, type,
-        onChange,
+        name,
+        type,
         register,
-        required
+        required,
+        min,
+        max,
+        pattern,
+        maxLength
     }) => {
     return (
         <StyledFormField>
             <label htmlFor={id}>{label}</label>
-            <input {...register(label, {required})}
-                   name={name}
-                   id={id}
-                   type={type}
-                   onChange={onChange}
-                   value={value}/>
+            <input {...register(label, {required, min, max, pattern, maxLength})} name={name} id={id} type={type}/>
         </StyledFormField>
     )
 }

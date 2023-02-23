@@ -40,3 +40,10 @@ export const StyledForm = styled.form`
     }
   }
 `;
+
+export const Error = styled.div`
+  font-size: 12px;
+  color: red;
+  font-weight: bold;
+  margin: 0;
+`;

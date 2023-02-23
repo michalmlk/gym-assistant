@@ -21,8 +21,8 @@ const DataProvider = (props: PropsWithChildren) => {
     const addTraining = (training: Training) => {
         const newTraining: Training = {
             id: uuid(),
-            duration: training.duration,
-            intensity: training.intensity,
+            duration: `${training.duration} min`,
+            intensity: `${training.intensity} %`,
             activityType: training.activityType
         }
         setTrainings([newTraining, ...trainings]);
