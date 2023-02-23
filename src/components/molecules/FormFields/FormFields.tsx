@@ -1,45 +1,42 @@
-import React, {ChangeEvent, HTMLInputTypeAttribute} from "react";
-import styled from "styled-components";
+import React, {HTMLInputTypeAttribute} from "react";
+import {Path, UseFormRegister} from 'react-hook-form';
+import {StyledFormField} from "./FormField.styles";
 
-const StyledFormField = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin: 20px 0;
-
-  label {
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  input, select {
-    border-radius: 50px;
-    border: 1px solid #ddd;
-    padding: 0 15px;
-    font-size: 18px;
-    height: 40px;
-  }
-`;
-
-export interface FormFieldProps {
-    value: string,
-    id: string,
-    label: string,
-    name: string,
-    type?: HTMLInputTypeAttribute,
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void,
+export interface IFormInputs {
+    duration: string;
+    intensity: string;
+    activityType: string;
 }
 
-// interface FormSelectProps extends Omit <FormFieldProps, 'onChange'> {
-//     options: Array<string>
-//     onChange: (event: ChangeEvent<HTMLSelectElement>) => void,
-// }
+export interface FormFieldProps {
+    id: string,
+    label: Path<IFormInputs>,
+    name: string,
+    type?: HTMLInputTypeAttribute,
+    register: UseFormRegister<IFormInputs>,
+    required: boolean,
+    pattern?: RegExp,
+    maxLength?: number,
+    min?: number,
+    max?: number,
+}
 
-export const FormField: React.FC<FormFieldProps> = ({value, id, label, name, type, onChange}) => {
+export const FormField: React.FC<FormFieldProps> = ({
+        id,
+        label,
+        name,
+        type,
+        register,
+        required,
+        min,
+        max,
+        pattern,
+        maxLength
+    }) => {
     return (
         <StyledFormField>
             <label htmlFor={id}>{label}</label>
-            <input name={name} id={id} type={type} onChange={onChange} value={value}/>
+            <input {...register(label, {required, min, max, pattern, maxLength})} name={name} id={id} type={type}/>
         </StyledFormField>
     )
 }

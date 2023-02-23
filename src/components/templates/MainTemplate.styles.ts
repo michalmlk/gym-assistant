@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   height: 100vh;
   grid-template-areas: 'tb tb tb'
                        'db db stb'
-                       'db db stb';
+                       'ch ch stb';
   grid-template-rows: 70px 1fr 1fr;
   grid-template-columns: repeat(3, 1fr);
 `;

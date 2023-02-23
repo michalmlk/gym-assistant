@@ -1,54 +1,78 @@
-import React, {FormEventHandler} from "react";
+import React, {FormEventHandler, useContext} from "react";
 import {FormField} from "../../molecules/FormFields/FormFields";
-import {Wrapper, StyledForm} from "./ActivityForm.styles";
-import {useForm, FormState} from "../../../hooks/useForm";
+import {Wrapper, StyledForm, Error} from "./ActivityForm.styles";
+import {DataContext} from "../../../context/DataProvider";
+import {useForm, SubmitHandler} from 'react-hook-form';
+import uuid from "react-uuid";
 
 
 interface ActivityFormProps {
     onSubmit: FormEventHandler<HTMLFormElement>
 }
 
+interface IFormValues {
+    duration: string;
+    intensity: string;
+    activityType: string;
+}
+
 const ActivityForm: React.FC<ActivityFormProps> = () => {
 
-    const initialFormState: FormState = {
+    const initialFormState: IFormValues = {
         duration: '',
         intensity: '',
         activityType: '',
     }
 
-    const {formValues, handleInputChange, handleClearForm} = useForm(initialFormState);
+    const {addTraining} = useContext(DataContext);
+    const {register, handleSubmit, reset, formState: {errors}} = useForm<IFormValues>({
+        defaultValues: initialFormState
+    });
+
+    const onSubmit: SubmitHandler<IFormValues> = ({duration, intensity, activityType}) => {
+        const formValues = {
+            id: uuid(),
+            duration,
+            intensity,
+            activityType
+        }
+        addTraining(formValues)
+        reset()
+    }
 
     return <Wrapper>
-        <StyledForm onSubmit={(e) => {
-            e.preventDefault()
-            handleClearForm()
-            console.log(formValues)
-        }}>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <h1>Your training:</h1>
             <FormField
                 id='duration'
-                label='Duration (min)'
+                label='duration'
                 type='number'
                 name='duration'
-                onChange={handleInputChange}
-                value={formValues.duration}
+                register={register}
+                required
             />
+            {errors.duration && <Error>Duration is required</Error>}
             <FormField
                 id='intensity'
-                label='Intensity (%)'
+                label='intensity'
                 type='number'
                 name='intensity'
-                onChange={handleInputChange}
-                value={formValues.intensity}
+                register={register}
+                required
+                min={1}
+                max={100}
             />
+            {errors.intensity && <Error>Intensity is required and must be between 1-100 (%)</Error>}
             <FormField
                 id='type'
-                label='Type'
+                label='activityType'
                 type='string'
                 name='activityType'
-                onChange={handleInputChange}
-                value={formValues.activityType}
+                register={register}
+                required
+                pattern={/^[A-Za-z]+$/i}
             />
+            {errors.activityType && <Error>Type is required and should not contains any numbers</Error>}
             <button type='submit'>Save</button>
         </StyledForm>
     </Wrapper>
