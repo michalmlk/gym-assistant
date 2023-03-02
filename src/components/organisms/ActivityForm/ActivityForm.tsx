@@ -11,9 +11,9 @@ interface ActivityFormProps {
 }
 
 interface IFormValues {
-    duration: string;
-    intensity: string;
-    activityType: string;
+    duration: string,
+    intensity: string,
+    activityType: string
 }
 
 const ActivityForm: React.FC<ActivityFormProps> = () => {
