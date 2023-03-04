@@ -1,7 +1,9 @@
-import React, { useState, PropsWithChildren } from 'react';
+import React, { useState, useEffect, PropsWithChildren } from 'react';
 import uuid from 'react-uuid';
+import axios from 'axios';
+import {useAsyncError} from "react-router-dom";
 
-type Training = {
+export type Training = {
     id: string,
     duration: string,
     intensity: string,
@@ -11,25 +13,31 @@ type Training = {
 export const DataContext = React.createContext({
     trainings: [] as Array<Training>,
     addTraining: (training: Training) => {},
-    removeTraining: (type: string) => {}
+    removeTraining: (id: string) => {}
 })
 
 
 const DataProvider = (props: PropsWithChildren) => {
     const [trainings, setTrainings] = useState(Array<Training>);
 
+    useEffect(() => {
+        axios.get('/trainings')
+            .then(({data}) => setTrainings(data.trainings));
+    }, [])
+
     const addTraining = (training: Training) => {
         const newTraining: Training = {
             id: uuid(),
-            duration: `${training.duration} min`,
-            intensity: `${training.intensity} %`,
+            duration: training.duration,
+            intensity: training.intensity,
             activityType: training.activityType
         }
         setTrainings([newTraining, ...trainings]);
     }
 
-    const removeTraining = (type: string) => {
-        const filteredTrainings = trainings.filter(training => training.activityType !== type);
+    const removeTraining = (id: string) => {
+        const filteredTrainings = trainings.filter(training => training.id !== id);
+        console.log(filteredTrainings);
         setTrainings(filteredTrainings);
     }
 
