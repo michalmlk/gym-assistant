@@ -1,16 +1,12 @@
-import React, {ReactNode, FC} from "react";
+import React, { ReactNode } from "react";
 import TopBar from '../organisms/TopBar/TopBar';
-import {Wrapper} from "./MainTemplate.styles";
+import { Wrapper } from "./MainTemplate.styles";
 
-interface MainTemplateProps {
-    children: ReactNode;
-}
-
-const MainTemplate: FC<MainTemplateProps> = ({children}) => {
+const MainTemplate: React.FC<{ children: ReactNode }> = ({ children }) => {
     return(
         <Wrapper>
             <TopBar />
-            {children}
+            { children }
         </Wrapper>
     )
 }

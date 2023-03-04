@@ -1,14 +1,7 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react';
+import { Training } from "../model";
 import uuid from 'react-uuid';
 import axios from 'axios';
-import {useAsyncError} from "react-router-dom";
-
-export type Training = {
-    id: string,
-    duration: string,
-    intensity: string,
-    activityType: string
-}
 
 export const DataContext = React.createContext({
     trainings: [] as Array<Training>,

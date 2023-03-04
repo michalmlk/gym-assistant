@@ -1,14 +1,9 @@
-import React, {FormEventHandler, useContext} from "react";
-import {FormField} from "../../molecules/FormFields/FormFields";
-import {Wrapper, StyledForm, Error} from "./ActivityForm.styles";
-import {DataContext} from "../../../context/DataProvider";
-import {useForm, SubmitHandler} from 'react-hook-form';
+import React, { useContext } from "react";
+import { FormField } from "../../molecules/FormFields/FormFields";
+import { Wrapper, StyledForm, Error } from "./ActivityForm.styles";
+import { DataContext } from "../../../context/DataProvider";
+import { useForm, SubmitHandler } from 'react-hook-form';
 import uuid from "react-uuid";
-
-
-interface ActivityFormProps {
-    onSubmit: FormEventHandler<HTMLFormElement>
-}
 
 interface IFormValues {
     duration: string,
@@ -16,24 +11,24 @@ interface IFormValues {
     activityType: string
 }
 
-const ActivityForm: React.FC<ActivityFormProps> = () => {
+const initialFormState: IFormValues = {
+    duration: '',
+    intensity: '',
+    activityType: '',
+}
 
-    const initialFormState: IFormValues = {
-        duration: '',
-        intensity: '',
-        activityType: '',
-    }
+const ActivityForm: React.FC = () => {
 
-    const {addTraining} = useContext(DataContext);
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<IFormValues>({
+    const { addTraining } = useContext(DataContext);
+    const { register, handleSubmit, reset, formState: {errors} } = useForm<IFormValues>({
         defaultValues: initialFormState
     });
 
     const onSubmit: SubmitHandler<IFormValues> = ({duration, intensity, activityType}) => {
         const formValues = {
             id: uuid(),
-            duration,
-            intensity,
+            duration: parseInt(duration),
+            intensity: parseInt(intensity),
             activityType
         }
         addTraining(formValues)

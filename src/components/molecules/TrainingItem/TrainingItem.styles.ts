@@ -45,6 +45,7 @@ export const Wrapper = styled.div`
   grid-template-areas: "intensity type duration buttons";
   border-radius: 15px;
   background-color: #fff;
+  margin-bottom: 10px;
   
   ${IntensityDisplayer} {
     grid-area: intensity;
