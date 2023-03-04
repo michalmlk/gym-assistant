@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const IntensityDisplayer = styled.div`
+export const IntensityDisplayer = styled.div<{ intensity: string }>`
   width: 60px;
   height: 40px;
   border-radius: 10px;
-  background-color: red;
+  background-color: ${props => props.intensity};
   font-size: 16px;
   line-height: 40px;
   color: #fff;

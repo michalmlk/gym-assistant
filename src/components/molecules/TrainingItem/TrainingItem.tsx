@@ -1,18 +1,26 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Wrapper, IntensityDisplayer, Buttons } from "./TrainingItem.styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {DataContext} from "../../../context/DataProvider";
 
 interface TrainingItemProps {
+    id: string,
     type: string,
-    duration:string,
+    duration: string,
     intensity: string
 }
 
-const TrainingItem: React.FC<TrainingItemProps> = ({type, duration, intensity}) => {
+const intensityFormatter = (intensity: string): string => {
+    return parseInt(intensity) > 75 ? '#8aeba4' : parseInt(intensity) < 30 ? '#e35454' : '#fab811';
+}
+
+const TrainingItem: React.FC<TrainingItemProps> = ({ id, type, duration, intensity}) => {
+    const { removeTraining } = useContext(DataContext);
+
     return (
         <Wrapper>
-            <IntensityDisplayer>{intensity} %</IntensityDisplayer>
+            <IntensityDisplayer intensity={intensityFormatter(intensity)}>{intensity} %</IntensityDisplayer>
             <p>{type}</p>
             <p>{duration} min</p>
             <Buttons>
@@ -20,7 +28,7 @@ const TrainingItem: React.FC<TrainingItemProps> = ({type, duration, intensity}) 
                     <FontAwesomeIcon icon={faEdit} />
                 </button>
                 <button>
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTrash} onClick={() => removeTraining(id)} />
                 </button>
             </Buttons>
         </Wrapper>

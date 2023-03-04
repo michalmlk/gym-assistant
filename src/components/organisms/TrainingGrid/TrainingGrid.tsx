@@ -12,6 +12,8 @@ const TrainingGrid = () => {
                 {trainings.length ?
                     trainings.map(training =>
                             <TrainingItem
+                                key={training.id}
+                                id={training.id}
                                 type={training.activityType}
                                 duration={training.duration}
                                 intensity={training.intensity}
