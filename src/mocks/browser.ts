@@ -8,3 +8,6 @@ for(let i=0;i<25;i++) {
     db.training.create();
 }
 
+db.userData.create();
+
+

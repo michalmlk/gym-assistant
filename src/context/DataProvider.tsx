@@ -1,10 +1,11 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react';
-import { Training } from "../model";
+import { Training, User } from "../model";
 import uuid from 'react-uuid';
 import axios from 'axios';
 
 export const DataContext = React.createContext({
     trainings: [] as Array<Training>,
+    userData: {} as User | undefined,
     addTraining: (training: Training) => {},
     removeTraining: (id: string) => {}
 })
@@ -12,10 +13,16 @@ export const DataContext = React.createContext({
 
 const DataProvider = (props: PropsWithChildren) => {
     const [trainings, setTrainings] = useState(Array<Training>);
+    const [userData, setUserData] = useState<User>();
 
     useEffect(() => {
         axios.get('/trainings')
             .then(({data}) => setTrainings(data.trainings));
+    }, [])
+
+    useEffect(() => {
+        axios.get('/user')
+            .then(({data}) => setUserData(data.userData[0]))
     }, [])
 
     const addTraining = (training: Training) => {
@@ -39,6 +46,7 @@ const DataProvider = (props: PropsWithChildren) => {
         <DataContext.Provider
             value={{
             trainings,
+            userData,
             addTraining,
             removeTraining,
             }}>

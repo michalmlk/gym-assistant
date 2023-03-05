@@ -10,5 +10,14 @@ export const handlers = [
                 trainings
             })
         )
+    }),
+    rest.get('/user', (req, res, ctx) => {
+        const userData = db.userData.getAll();
+        return res(
+            ctx.status(200),
+            ctx.json({
+                userData,
+            })
+        )
     })
 ]

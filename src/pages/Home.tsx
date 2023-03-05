@@ -3,6 +3,7 @@ import MainTemplate from "../components/templates/MainTemplate";
 import ActivityForm from "../components/organisms/ActivityForm/ActivityForm";
 import TrainingGrid from "../components/organisms/TrainingGrid/TrainingGrid";
 import Chart from '../components/organisms/Chart/Chart';
+import UserData from "../components/organisms/UserData";
 
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
             <ActivityForm />
             <TrainingGrid />
             <Chart />
+            <UserData />
         </MainTemplate>
     )
 }

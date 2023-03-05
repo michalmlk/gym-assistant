@@ -4,6 +4,7 @@ import { DataContext } from "../../../context/DataProvider";
 import { Chart as ChartJS}from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
+import { ActivityChartState } from '../../../model';
 
 const options = {
     plugins: {
@@ -14,27 +15,30 @@ const options = {
     },
 }
 
+const initialChartState: ActivityChartState = {
+    labels: [],
+    datasets: [
+        {
+            id: 1,
+            label: '',
+            data: []
+        }
+    ]
+}
+
 const Chart: React.FC = () => {
     ChartJS.register(CategoryScale);
     const { trainings } = useContext(DataContext);
-    const [chartData, setChartData] = useState({
-        labels: trainings.map(training => ''),
-        datasets: [
-            {
-                id: 1,
-                label: 'training intensity in %',
-                data: trainings.map(training => training.intensity),
-            }
-        ]
-    });
+    const [chartData, setChartData] = useState(initialChartState);
 
     useEffect(() => {
         setChartData({
-            ...chartData,
+            labels: trainings.map(training => training.intensity),
             datasets: [
                 {
-                    ...chartData.datasets[0],
-                    data: trainings.map(training => training.intensity)
+                    id: 1,
+                    label: 'training intensity in %',
+                    data: trainings.map(training => training.intensity),
                 }
             ]
         })
@@ -43,6 +47,7 @@ const Chart: React.FC = () => {
     return (
         <Wrapper>
             <StyledLineChart>
+                <h1>Training sessions</h1>
                 <Line data={chartData} options={options} />
             </StyledLineChart>
         </Wrapper>

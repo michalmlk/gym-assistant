@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
 
 export const StyledLineChart = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -15,5 +16,9 @@ export const StyledLineChart = styled.div`
   background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.2);
-  padding: 10px;
+  padding: 2rem;
+  
+  h1 {
+    align-self: flex-start;
+  }
 `;
